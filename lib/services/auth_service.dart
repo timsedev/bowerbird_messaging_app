@@ -3,7 +3,7 @@ import 'package:bowerbird_messaging_app/core/models/user.dart';
 import 'package:bowerbird_messaging_app/util/log_exception.dart';
 import 'package:dio/dio.dart';
 
-import '../ui/common/constants.dart';
+import '../ui/common/path.dart';
 
 class AuthService {
   final Dio _dio;
@@ -20,7 +20,7 @@ class AuthService {
   Future<bool> login(String email, String password) async {
     try {
       final response = await _dio.post(
-        '$baseUrl/login',
+        Path.login,
         data: {
           'user': {
             'email': email,

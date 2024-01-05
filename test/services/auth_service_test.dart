@@ -1,5 +1,5 @@
 import 'package:bowerbird_messaging_app/services/auth_service.dart';
-import 'package:bowerbird_messaging_app/ui/common/constants.dart';
+import 'package:bowerbird_messaging_app/ui/common/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bowerbird_messaging_app/app/app.locator.dart';
@@ -42,7 +42,7 @@ void main() {
           },
           statusCode: 200,
           requestOptions: RequestOptions(
-            path: '$baseUrl/login',
+            path: Path.login,
           ),
         ),
       );
@@ -63,7 +63,7 @@ void main() {
           data: null,
           statusCode: 401,
           requestOptions: RequestOptions(
-            path: '$baseUrl/login',
+            path: Path.login,
           ),
         ),
       );
