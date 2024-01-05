@@ -51,5 +51,26 @@ void main() {
 
       expect(result, true);
     });
+
+    test('When login is called with invalid credentials, returns false',
+        () async {
+      when(mockDio!.post(
+        any,
+        data: anyNamed('data'),
+        options: anyNamed('options'),
+      )).thenAnswer(
+        (_) async => Response(
+          data: null,
+          statusCode: 401,
+          requestOptions: RequestOptions(
+            path: '$baseUrl/login',
+          ),
+        ),
+      );
+
+      final result = await authService!.login('test@test.com', 'password');
+
+      expect(result, false);
+    });
   });
 }
