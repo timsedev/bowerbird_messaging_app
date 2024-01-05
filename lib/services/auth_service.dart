@@ -6,7 +6,9 @@ import 'package:dio/dio.dart';
 import '../ui/common/constants.dart';
 
 class AuthService {
-  final Dio _dio = Dio();
+  final Dio _dio;
+
+  AuthService({Dio? dio}) : _dio = dio ?? Dio();
 
   /// Temporary variable to store token here
   /// TODO: Store token in flutter_secure_storage
