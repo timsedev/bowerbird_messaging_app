@@ -3,6 +3,7 @@ import 'package:bowerbird_messaging_app/ui/views/startup/startup_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:bowerbird_messaging_app/ui/views/login/login_view.dart';
+import 'package:bowerbird_messaging_app/services/auth_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -16,7 +17,8 @@ import 'package:bowerbird_messaging_app/ui/views/login/login_view.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
-    // @stacked-service
+    LazySingleton(classType: AuthService),
+// @stacked-service
   ],
 )
 class App {}
