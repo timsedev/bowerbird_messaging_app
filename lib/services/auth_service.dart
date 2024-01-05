@@ -22,8 +22,10 @@ class AuthService {
       final response = await _dio.post(
         '$baseUrl/login',
         data: {
-          'email': email,
-          'password': password,
+          'user': {
+            'email': email,
+            'password': password,
+          }
         },
         options: Options(contentType: Headers.jsonContentType),
       );
@@ -32,6 +34,7 @@ class AuthService {
         final userResponse = UserResponse.fromJson(response.data);
         token = userResponse.token;
         user = userResponse.user;
+
         return true;
       } else {
         return false;
