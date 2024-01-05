@@ -8,6 +8,7 @@ import 'dart:ui' as _i5;
 
 import 'package:bowerbird_messaging_app/core/models/user.dart' as _i7;
 import 'package:bowerbird_messaging_app/services/auth_service.dart' as _i6;
+import 'package:bowerbird_messaging_app/services/message_service.dart' as _i8;
 import 'package:flutter/material.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i2;
@@ -86,7 +87,7 @@ class MockNavigationService extends _i1.Mock implements _i2.NavigationService {
     Duration? duration,
     bool? popGesture,
     int? id,
-    _i3.Curve? curve,
+    dynamic curve,
     bool? fullscreenDialog = false,
     bool? preventDuplicates = true,
     _i2.Transition? transitionClass,
@@ -122,7 +123,7 @@ class MockNavigationService extends _i1.Mock implements _i2.NavigationService {
     Duration? duration,
     bool? popGesture,
     int? id,
-    _i3.Curve? curve,
+    dynamic curve,
     bool? fullscreenDialog = false,
     bool? preventDuplicates = true,
     _i2.Transition? transitionClass,
@@ -221,7 +222,7 @@ class MockNavigationService extends _i1.Mock implements _i2.NavigationService {
     dynamic arguments,
     int? id,
     bool? opaque,
-    _i3.Curve? curve,
+    dynamic curve,
     Duration? duration,
     bool? fullscreenDialog = false,
     bool? popGesture,
@@ -693,3 +694,8 @@ class MockAuthService extends _i1.Mock implements _i6.AuthService {
         returnValueForMissingStub: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
 }
+
+/// A class which mocks [MessageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMessageService extends _i1.Mock implements _i8.MessageService {}
