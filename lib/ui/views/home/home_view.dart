@@ -15,40 +15,13 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                verticalSpaceLarge,
-                Column(
-                  children: [
-                    const Text(
-                      'Hello, STACKED!',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    verticalSpaceMedium,
-                    MaterialButton(
-                      color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
-                      child: Text(
-                        viewModel.counterLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+      appBar: AppBar(
+        title: const Text('BowerBird Messaging App'),
       ),
+      body: SafeArea(
+          child: viewModel.isBusy
+              ? const Center(child: CircularProgressIndicator())
+              : _buildMessageGroupList(context, viewModel)),
     );
   }
 
@@ -57,4 +30,26 @@ class HomeView extends StackedView<HomeViewModel> {
     BuildContext context,
   ) =>
       HomeViewModel();
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    viewModel.setBusy(true);
+    viewModel.onViewModelReady();
+    super.onViewModelReady(viewModel);
+  }
+
+  Widget _buildMessageGroupList(BuildContext context, HomeViewModel viewModel) {
+    return viewModel.messageGroups == null
+        ? const Center(child: Text('No message groups found'))
+        : ListView.builder(
+            itemCount: viewModel.messageGroups!.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: ListTile(
+                  title: Text(viewModel.messageGroups![index].name),
+                ),
+              );
+            },
+          );
+  }
 }
