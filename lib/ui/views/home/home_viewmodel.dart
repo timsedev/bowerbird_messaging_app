@@ -1,12 +1,24 @@
+import 'package:bowerbird_messaging_app/app/app.locator.dart';
+import 'package:bowerbird_messaging_app/core/models/message_group.dart';
+import 'package:bowerbird_messaging_app/services/message_service.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeViewModel extends BaseViewModel {
-  String get counterLabel => 'Counter is: $_counter';
+  final _messageService = locator<MessageService>();
 
-  int _counter = 0;
+  List<MessageGroup>? messageGroups;
 
-  void incrementCounter() {
-    _counter++;
-    rebuildUi();
+  void onViewModelReady() async {
+    setBusy(true);
+    await getMessageGroups();
+    setBusy(false);
+    notifyListeners();
+  }
+
+  Future<void> getMessageGroups() async {
+    setBusy(true);
+    messageGroups = await _messageService.getMessageGroups();
+    setBusy(false);
+    notifyListeners();
   }
 }
