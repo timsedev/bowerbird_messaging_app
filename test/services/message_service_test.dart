@@ -24,6 +24,17 @@ void main() {
     tearDown(() => locator.reset());
 
     group('getMessageGroups -', () {
+      final successfulResponse = [
+        {
+          "id": "000000",
+          "name": "Test",
+          "user_id": "000000",
+          "last_message_at": "2024-01-05T07:13:21.827Z",
+          "created_at": "2024-01-03T02:02:18.166Z",
+          "updated_at": "2024-01-05T07:13:21.827Z"
+        }
+      ];
+
       test('returns null when user is not logged in', () async {
         expect(await messageService!.getMessageGroups(false), isNull);
       });
@@ -36,24 +47,35 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => Response(
-            data: [
-              {
-                "id": "000000",
-                "name": "Test",
-                "user_id": "000000",
-                "last_message_at": "2024-01-05T07:13:21.827Z",
-                "created_at": "2024-01-03T02:02:18.166Z",
-                "updated_at": "2024-01-05T07:13:21.827Z"
-              }
-            ],
+            data: successfulResponse,
             statusCode: 200,
             requestOptions: RequestOptions(
               path: Path.indexMessageGroups,
             ),
           ),
         );
+
         expect(await messageService!.getMessageGroups(true),
             isA<List<MessageGroup>>());
+      });
+
+      test('returns null on unsuccessful API call', () async {
+        when(
+          mockDio!.get(
+            any,
+            options: anyNamed('options'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            data: null,
+            statusCode: 400,
+            requestOptions: RequestOptions(
+              path: Path.indexMessageGroups,
+            ),
+          ),
+        );
+
+        expect(await messageService!.getMessageGroups(true), isNull);
       });
     });
   });
