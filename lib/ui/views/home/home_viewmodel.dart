@@ -9,7 +9,6 @@ class HomeViewModel extends BaseViewModel {
   List<MessageGroup>? messageGroups;
 
   void onViewModelReady() async {
-    setBusy(true);
     await getMessageGroups();
     setBusy(false);
     notifyListeners();
@@ -17,7 +16,8 @@ class HomeViewModel extends BaseViewModel {
 
   Future<void> getMessageGroups() async {
     setBusy(true);
-    messageGroups = await _messageService.getMessageGroups();
+    messageGroups =
+        await _messageService.getMessageGroups(_messageService.isLoggedIn);
     setBusy(false);
     notifyListeners();
   }
