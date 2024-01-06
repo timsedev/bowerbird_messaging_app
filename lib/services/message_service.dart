@@ -16,7 +16,7 @@ class MessageService {
 
   MessageService({Dio? dio}) : _dio = dio ?? Dio();
 
-  Future<List<MessageGroup>?> getMessageGroups() async {
+  Future<List<MessageGroup>?> getMessageGroups(bool isLoggedIn) async {
     try {
       if (!isLoggedIn) {
         return null;
