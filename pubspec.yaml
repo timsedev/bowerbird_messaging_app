@@ -10,6 +10,7 @@ dependencies:
   dio: ^5.4.0
   flutter:
     sdk: flutter
+  google_fonts: ^6.1.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 
