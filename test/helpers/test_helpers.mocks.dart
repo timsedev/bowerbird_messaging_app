@@ -10,6 +10,8 @@ import 'package:bowerbird_messaging_app/core/models/message_group.dart' as _i9;
 import 'package:bowerbird_messaging_app/core/models/user.dart' as _i7;
 import 'package:bowerbird_messaging_app/services/auth_service.dart' as _i6;
 import 'package:bowerbird_messaging_app/services/message_service.dart' as _i8;
+import 'package:bowerbird_messaging_app/services/secure_storage_service.dart'
+    as _i10;
 import 'package:flutter/material.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i2;
@@ -694,6 +696,15 @@ class MockAuthService extends _i1.Mock implements _i6.AuthService {
         returnValue: _i4.Future<bool>.value(false),
         returnValueForMissingStub: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
+
+  @override
+  void logout() => super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [MessageService].
@@ -718,3 +729,9 @@ class MockMessageService extends _i1.Mock implements _i8.MessageService {
         returnValueForMissingStub: _i4.Future<List<_i9.MessageGroup>?>.value(),
       ) as _i4.Future<List<_i9.MessageGroup>?>);
 }
+
+/// A class which mocks [SecureStorageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSecureStorageService extends _i1.Mock
+    implements _i10.SecureStorageService {}

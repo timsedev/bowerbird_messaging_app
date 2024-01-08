@@ -4,6 +4,7 @@ import 'package:bowerbird_messaging_app/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:bowerbird_messaging_app/services/auth_service.dart';
 import 'package:bowerbird_messaging_app/services/message_service.dart';
+import 'package:bowerbird_messaging_app/services/secure_storage_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -14,6 +15,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AuthService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<MessageService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -22,6 +24,7 @@ void registerServices() {
   getAndRegisterDialogService();
   getAndRegisterAuthService();
   getAndRegisterMessageService();
+  getAndRegisterSecureStorageService();
 // @stacked-mock-register
 }
 
@@ -89,6 +92,12 @@ MockMessageService getAndRegisterMessageService() {
   return service;
 }
 
+MockSecureStorageService getAndRegisterSecureStorageService() {
+  _removeRegistrationIfExists<SecureStorageService>();
+  final service = MockSecureStorageService();
+  locator.registerSingleton<SecureStorageService>(service);
+  return service;
+}
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {
