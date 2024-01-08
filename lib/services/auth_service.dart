@@ -44,4 +44,10 @@ class AuthService {
       return false;
     }
   }
+
+  void logout() async {
+    user = null;
+    token = null;
+    // TODO: remove token from flutter_secure_storage
+  }
 }
