@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bowerbird_messaging_app/app/app.locator.dart';
 import 'package:bowerbird_messaging_app/app/app.router.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await setupLocator();
   runApp(const MainApp());
 }
