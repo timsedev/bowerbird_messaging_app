@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:bowerbird_messaging_app/ui/common/app_colors.dart';
-import 'package:bowerbird_messaging_app/ui/common/ui_helpers.dart';
 
 import 'home_viewmodel.dart';
 
@@ -15,13 +13,24 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BowerBird Messaging App'),
-      ),
       body: SafeArea(
-          child: viewModel.isBusy
-              ? const Center(child: CircularProgressIndicator())
-              : _buildMessageGroupList(context, viewModel)),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+                title: const Text('BowerBird'),
+                pinned: true,
+                floating: true,
+                expandedHeight: 100,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: const Text('BowerBird'),
+                  background: Container(
+                    color: Colors.blue,
+                  ),
+                )),
+            _buildMessageGroupList(context, viewModel),
+          ],
+        ),
+      ),
     );
   }
 
@@ -38,18 +47,21 @@ class HomeView extends StackedView<HomeViewModel> {
     super.onViewModelReady(viewModel);
   }
 
+  Widget _buildAppBar(BuildContext context, HomeViewModel viewModel) {
+    return Row();
+  }
+
   Widget _buildMessageGroupList(BuildContext context, HomeViewModel viewModel) {
     return viewModel.messageGroups == null
-        ? const Center(child: Text('No message groups found'))
-        : ListView.builder(
-            itemCount: viewModel.messageGroups!.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  title: Text(viewModel.messageGroups![index].name),
-                ),
-              );
-            },
+        ? SliverToBoxAdapter(
+            child: const Center(child: Text('No message groups found')))
+        : SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => ListTile(
+                title: Text(viewModel.messageGroups![index].name),
+              ),
+              childCount: viewModel.messageGroups!.length,
+            ),
           );
   }
 }
