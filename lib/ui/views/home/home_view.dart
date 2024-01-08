@@ -1,3 +1,5 @@
+import 'package:bowerbird_messaging_app/ui/common/logo.dart';
+import 'package:bowerbird_messaging_app/ui/common/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -14,19 +16,9 @@ class HomeView extends StackedView<HomeViewModel> {
   ) {
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-                title: const Text('BowerBird'),
-                pinned: true,
-                floating: true,
-                expandedHeight: 100,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: const Text('BowerBird'),
-                  background: Container(
-                    color: Colors.blue,
-                  ),
-                )),
+        child: Column(
+          children: [
+            _buildBasicAppBar(context, viewModel),
             _buildMessageGroupList(context, viewModel),
           ],
         ),
@@ -47,21 +39,61 @@ class HomeView extends StackedView<HomeViewModel> {
     super.onViewModelReady(viewModel);
   }
 
-  Widget _buildAppBar(BuildContext context, HomeViewModel viewModel) {
-    return Row();
+  Widget _buildBasicAppBar(BuildContext context, HomeViewModel viewModel) {
+    return Container(
+      color: kPrimaryColor,
+      padding: const EdgeInsets.symmetric(vertical: sizeM),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          horizontalSpaceM,
+          bowerBirdLogo(size: sizeL, isDark: false),
+          horizontalSpaceM,
+          Text(
+            'Messages',
+            style: TextStyle(
+              fontSize: sizeL,
+              fontWeight: FontWeight.bold,
+              color: kWhiteColor,
+            ),
+          ),
+          Spacer(),
+          // search icon
+          GestureDetector(
+            onTap: () {},
+            child: Icon(
+              Icons.search,
+              color: kWhiteColor,
+            ),
+          ),
+          horizontalSpaceS,
+          GestureDetector(
+            onTap: () {},
+            child: Icon(
+              Icons.more_vert,
+              color: kWhiteColor,
+            ),
+          ),
+          horizontalSpaceM,
+        ],
+      ),
+    );
   }
 
   Widget _buildMessageGroupList(BuildContext context, HomeViewModel viewModel) {
-    return viewModel.messageGroups == null
-        ? SliverToBoxAdapter(
-            child: const Center(child: Text('No message groups found')))
-        : SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => ListTile(
-                title: Text(viewModel.messageGroups![index].name),
-              ),
-              childCount: viewModel.messageGroups!.length,
+    return Expanded(
+      child: viewModel.messageGroups == null
+          ? const Center(child: Text('No message groups found'))
+          : ListView.builder(
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(viewModel.messageGroups![index].name),
+                );
+              },
+              itemCount: viewModel.messageGroups!.length,
             ),
-          );
+    );
   }
 }
