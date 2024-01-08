@@ -1,3 +1,4 @@
+import 'package:bowerbird_messaging_app/core/models/message_group.dart';
 import 'package:bowerbird_messaging_app/ui/common/logo.dart';
 import 'package:bowerbird_messaging_app/ui/common/styles.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +43,14 @@ class HomeView extends StackedView<HomeViewModel> {
   Widget _buildBasicAppBar(BuildContext context, HomeViewModel viewModel) {
     return Container(
       color: kPrimaryColor,
-      padding: const EdgeInsets.symmetric(vertical: sizeM),
+      padding: const EdgeInsets.symmetric(vertical: sizeL),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           horizontalSpaceM,
           bowerBirdLogo(size: sizeL, isDark: false),
           horizontalSpaceM,
-          Text(
+          const Text(
             'Messages',
             style: TextStyle(
               fontSize: sizeL,
@@ -57,22 +58,35 @@ class HomeView extends StackedView<HomeViewModel> {
               color: kWhiteColor,
             ),
           ),
-          Spacer(),
-          // search icon
+          const Spacer(),
           GestureDetector(
-            onTap: () {},
-            child: Icon(
+            onTap: viewModel.toggleSearch,
+            child: const Icon(
               Icons.search,
               color: kWhiteColor,
             ),
           ),
           horizontalSpaceS,
-          GestureDetector(
-            onTap: () {},
-            child: Icon(
+          PopupMenuButton<int>(
+            child: const Icon(
               Icons.more_vert,
               color: kWhiteColor,
             ),
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 1,
+                child: Text("Sign out"),
+              ),
+            ],
+            onSelected: (value) {
+              switch (value) {
+                case 1:
+                  viewModel.logout();
+                  break;
+                default:
+                  break;
+              }
+            },
           ),
           horizontalSpaceM,
         ],
@@ -82,18 +96,144 @@ class HomeView extends StackedView<HomeViewModel> {
 
   Widget _buildMessageGroupList(BuildContext context, HomeViewModel viewModel) {
     return Expanded(
-      child: viewModel.messageGroups == null
-          ? const Center(child: Text('No message groups found'))
-          : ListView.builder(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(viewModel.messageGroups![index].name),
-                );
-              },
-              itemCount: viewModel.messageGroups!.length,
-            ),
+      child: RefreshIndicator(
+        color: kPrimaryColor,
+        onRefresh: () async {
+          await viewModel.getMessageGroups();
+        },
+        child: viewModel.messageGroups == null
+            ? SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: const Column(
+                    children: [
+                      Expanded(
+                          child:
+                              Center(child: Text('No message groups found'))),
+                    ],
+                  ),
+                ),
+              )
+            : ListView.builder(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: size5XL,
+                    width: double.infinity,
+                    child: _buildMessageGroupItem(
+                      context,
+                      viewModel,
+                      viewModel.messageGroups![index],
+                    ),
+                  );
+                },
+                itemCount: viewModel.messageGroups!.length,
+              ),
+      ),
     );
+  }
+
+  Widget _buildMessageGroupItem(BuildContext context, HomeViewModel viewModel,
+      MessageGroup messageGroup) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: sizeM, horizontal: sizeS),
+      child: Row(children: [
+        Container(
+          height: size3XL,
+          width: size3XL,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [kGreyColor, kDarkAccentColor, kPrimaryColor],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            ),
+          ),
+        ),
+        horizontalSpaceM,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      messageGroup.name,
+                      style: const TextStyle(
+                        fontSize: sizeM,
+                        fontWeight: kFontWeightBold,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    _lastMessageTime(messageGroup.lastMessageAt),
+                    style: const TextStyle(
+                      fontSize: sizeS,
+                      fontWeight: kFontWeightRegular,
+                      color: kGreyColor,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit adipicsing timothy',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: sizeM,
+                        fontWeight: kFontWeightRegular,
+                        color: kGreyColor,
+                      ),
+                    ),
+                  ),
+                  horizontalSpaceM,
+                  Container(
+                    padding: const EdgeInsets.all(sizeXS),
+                    decoration: const BoxDecoration(
+                      color: kAccentColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      '1',
+                      style: TextStyle(
+                        fontSize: sizeS,
+                        fontWeight: kFontWeightBold,
+                        color: kDarkAccentColor,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
+  _lastMessageTime(DateTime? lastMessageAt) {
+    if (lastMessageAt == null) {
+      return '';
+    }
+
+    final now = DateTime.now();
+    final difference = now.difference(lastMessageAt);
+    if (difference.inDays > 0) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minutes ago';
+    } else {
+      return 'Just now';
+    }
   }
 }
