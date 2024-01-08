@@ -106,6 +106,7 @@ const Color kPrimaryColor = Color(0xFF333333);
 const Color kGreyColor = Color(0xFF989898);
 const Color kWhiteColor = Color(0xFFFFFFFF);
 const Color kAccentColor = Color(0xFFE2FF32);
+const Color kDarkAccentColor = Color.fromARGB(255, 81, 91, 19);
 const Color kErrorColor = Color(0xFFFF4949);
 
 // fontsizes
