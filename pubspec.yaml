@@ -10,6 +10,7 @@ dependencies:
   dio: ^5.4.0
   flutter:
     sdk: flutter
+  flutter_secure_storage: ^9.0.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 
@@ -25,7 +26,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-  
+
   fonts:
     - family: Mulish
       fonts:
