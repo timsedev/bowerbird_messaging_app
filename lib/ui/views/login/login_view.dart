@@ -102,7 +102,7 @@ class LoginView extends StackedView<LoginViewModel> {
       String? Function(String?)? validator,
       bool isVisible = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: size2XL),
+      padding: const EdgeInsets.symmetric(horizontal: sizeL),
       child: TextFormField(
         obscureText: isVisible,
         controller: controller,
@@ -154,7 +154,7 @@ class LoginView extends StackedView<LoginViewModel> {
 
   Widget _buildLoginButton(LoginViewModel viewModel) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: size2XL),
+      padding: const EdgeInsets.symmetric(horizontal: sizeL),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
