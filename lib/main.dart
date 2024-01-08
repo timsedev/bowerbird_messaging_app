@@ -22,6 +22,9 @@ class MainApp extends StatelessWidget {
       navigatorObservers: [
         StackedService.routeObserver,
       ],
+      theme: ThemeData(
+        fontFamily: 'Mulish',
+      ),
     );
   }
 }
