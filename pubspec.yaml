@@ -10,7 +10,6 @@ dependencies:
   dio: ^5.4.0
   flutter:
     sdk: flutter
-  google_fonts: ^6.1.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 
@@ -24,3 +23,49 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+  
+  fonts:
+    - family: Mulish
+      fonts:
+        - asset: assets/fonts/Mulish-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Mulish-ExtraLightItalic.ttf
+          style: italic
+          weight: 200
+        - asset: assets/fonts/Mulish-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Mulish-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/Mulish-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Mulish-Italic.ttf
+          style: italic
+          weight: 400
+        - asset: assets/fonts/Mulish-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Mulish-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: assets/fonts/Mulish-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Mulish-SemiBoldItalic.ttf
+          style: italic
+          weight: 600
+        - asset: assets/fonts/Mulish-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Mulish-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/Mulish-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Mulish-ExtraBoldItalic.ttf
+          style: italic
+          weight: 800
+        - asset: assets/fonts/Mulish-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Mulish-BlackItalic.ttf
+          style: italic
+          weight: 900
