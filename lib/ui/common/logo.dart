@@ -17,7 +17,7 @@ Widget bowerBirdLogoAndText({required double size, required isDark}) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       bowerBirdLogo(size: size, isDark: isDark),
-      horizontalSpaceXS,
+      size < sizeM ? horizontalSpaceXS : horizontalSpaceS,
       Text(
         'Bowerbird',
         style: TextStyle(
